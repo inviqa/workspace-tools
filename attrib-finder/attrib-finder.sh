@@ -4,7 +4,7 @@ function load_parameters {
     tmp="${0%.*}"
     ME=${tmp##*/}
     DEBUG=0 #0,1,2
-
+    REQUIREMENTS=('yq' 'jq')
     ATTRIBUTES=()
     WS_FILE="workspace.yml"
     SHOW_ENCRYPTED_ONLY=false
@@ -70,6 +70,19 @@ function read_parameters {
     esac
     read_parameters "${@}"
   fi
+}
+
+function is_requirement_available {
+    for TOOL in "${REQUIREMENTS[@]}"
+    do
+        TOOL_PATH="$( command -v "${TOOL}")"
+        if [[ ! -x "${TOOL_PATH}" ]]; then
+            echo "(e) | ABORTING: COMMAND '${TOOL}' NOT FOUND OR NOT EXECUTABLE!"
+            return 1
+        else
+            if [[ ${DEBUG} -ge 1 ]]; then echo "(d) | REQUIREMENT FOUND: ${TOOL_PATH}"; fi
+        fi
+    done
 }
 
 function get_inline_attributes {
@@ -183,12 +196,16 @@ function list_attributes {
 }
 
 load_parameters "${@}"
-get_inline_attributes
-get_nested_attributes
-
-if [[ ${DEBUG} -eq 0 ]]; then
-    list_attributes
+if is_requirement_available; then
+    get_inline_attributes
+    get_nested_attributes
+    if [[ ${DEBUG} -eq 0 ]]; then
+        list_attributes
+    elif [[ ${DEBUG} -ge 2 ]]; then
+        echo "(d) | ALL_ATTR: ${ATTRIBUTES[*]}"
+        echo "(d) | ALL_ATTR_#: ${#ATTRIBUTES[*]}"
+    fi
+    exit 0
+else
+    exit 1
 fi
-
-if [[ ${DEBUG} -ge 2 ]]; then echo "(d) | ALL_ATTR: ${ATTRIBUTES[*]}"; fi
-if [[ ${DEBUG} -ge 2 ]]; then echo "(d) | ALL_ATTR_#: ${#ATTRIBUTES[*]}"; fi
