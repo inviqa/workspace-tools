@@ -1,6 +1,6 @@
 # Workspace Key Cycle
 
-Workspace Key Cycle is script written in BASH used to automate
+`wskeycycle.sh` is script written in BASH used to automate
 a Workspace project's Development Environment Key rotation
 
 ## What it does
