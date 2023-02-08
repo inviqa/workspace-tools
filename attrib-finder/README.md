@@ -37,6 +37,8 @@ node.version
 database.bin.mtk.release_path
 services.php-base.environment_secrets.CREDLY_INVIQA_SECRET
 services.php-base.environment_secrets.GOOGLE_CLIENT_SECRET
+services.redis.image
+services.redis.options.activedefrag
 ...
 ```
 
@@ -51,9 +53,13 @@ services.php-base.environment_secrets.GOOGLE_CLIENT_SECRET
 (d) | INLINE: php.composer.major_version
 (d) | INLINE: node.version
 (d) | INLINE: database.bin.mtk.release_path
+...
 (d) | PARENT: services.php-base.environment_secrets
 (d) | CHILD0: services.php-base.environment_secrets.CREDLY_INVIQA_SECRET
 (d) | CHILD1: services.php-base.environment_secrets.GOOGLE_CLIENT_SECRET
+...
+(d) | NESTED: services.redis.image
+(d) | NESTED: services.redis.options.activedefrag
 
 ...
 ```
