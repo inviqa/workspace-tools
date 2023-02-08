@@ -27,7 +27,7 @@ Used this command to print the command's usage parameters
 
 ### Exaples
 
-Print the list of all declared attributes in `inline` format
+#### Print the list of all declared attributes in `inline` format
 
 ```shell
 > ./workspace-tools/attrib-finder/attrib-finder.sh --workspace-file /path/to/workspace.yml
@@ -37,15 +37,28 @@ node.version
 database.bin.mtk.release_path
 services.php-base.environment_secrets.CREDLY_INVIQA_SECRET
 services.php-base.environment_secrets.GOOGLE_CLIENT_SECRET
-frontend.build.distribution_packages
-frontend.build.distribution_packages
-frontend.build.distribution_packages.0
-frontend.build.distribution_packages.1
-frontend.build.distribution_packages.2
 ...
 ```
 
-Print the list of only the encrypted attributes
+#### Print the list of all declared attributes with their type
+
+```shell
+> ./workspace-tools/attrib-finder/attrib-finder.sh --workspace-file /path/to/workspace.yml --debug 1
+(d) | WS_FILE: workspace.yml
+(d) | REQUIREMENT FOUND: /opt/homebrew/bin/yq
+(d) | REQUIREMENT FOUND: /opt/homebrew/bin/jq
+(d) | INLINE: php.version
+(d) | INLINE: php.composer.major_version
+(d) | INLINE: node.version
+(d) | INLINE: database.bin.mtk.release_path
+(d) | PARENT: services.php-base.environment_secrets
+(d) | CHILD0: services.php-base.environment_secrets.CREDLY_INVIQA_SECRET
+(d) | CHILD1: services.php-base.environment_secrets.GOOGLE_CLIENT_SECRET
+
+...
+```
+
+#### Print the list of only the encrypted attributes
 
 ```shell
 > ./workspace-tools/attrib-finder/attrib-finder.sh --workspace-file /path/to/workspace.yml --encrypted
@@ -54,7 +67,7 @@ services.php-base.environment_secrets.GOOGLE_CLIENT_SECRET
 ...
 ```
 
-Print all ecrypted secrets in clear
+#### Print all ecrypted secrets in clear
 
 ```shell
 ~/Development/Workspace/workspace-tools/attrib-finder/attrib-finder.sh -e | xargs -I % ws config dump --key=%
