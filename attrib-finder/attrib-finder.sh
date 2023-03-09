@@ -181,7 +181,7 @@ function get_nested_attributes {
 
 function is_attribute_array {
     ATTRIBUTE="${1}"
-    ws config dump --key="${ATTRIBUTE}" | grep -q "array" && return 0 || return 1 || true
+    ws config dump --key="${ATTRIBUTE}" --simple | grep -q "array" && return 0 || return 1 || true
 }
 
 function list_attributes {
